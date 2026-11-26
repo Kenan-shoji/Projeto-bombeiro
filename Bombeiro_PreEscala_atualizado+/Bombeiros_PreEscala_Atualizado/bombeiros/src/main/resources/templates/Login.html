@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Pré-Escala</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <div class="mobile-app-container">
+        <div class="login-view">
+            <div class="login-overlay">
+                 <!-- Logo dos Bombeiros Voluntários de Pomerode -->
+                <div class="login-logo">
+                    <img th:src="@{/img/logo-bombeiros-pomerode.png}"
+                         alt="Brasão dos Bombeiros Voluntários de Pomerode - SC">
+                </div>
+                
+                <div class="login-text">
+                    <h5>CORPO DE BOMBEIROS</h5>
+                    <h1>Pré-Escala</h1>
+                    <p>Entre para visualizar os seus plantões</p>
+                </div>
+            </div>
+            
+            <div class="login-form-box">
+                <!-- RNF10: aviso quando a sessão foi encerrada por inatividade -->
+                <div th:if="${sessaoExpirada}">
+                    <p style="color: #b26a00; text-align: center; font-weight: bold;">
+                        Sua sessão expirou por inatividade. Entre novamente.
+                    </p>
+                </div>
+
+                <div th:if="${mensagemSucesso}" class="alert alert-success" th:text="${mensagemSucesso}"></div>
+
+                <!-- Mensagem de erro caso a senha ou email falhem -->
+                <div th:if="${erro != null}">
+                    <p style="color: #dc3545; text-align: center; font-weight: bold;" th:text="${erro}"></p>
+                </div>
+
+                <!-- HTML puro action="/login" evita o ;jsessionid na URL -->
+                <form action="/login" method="POST">
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" placeholder="seuemail@exemplo.com" th:value="${emailDigitado}" required>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">Senha</label>
+                        <div class="input-group"><input type="password" id="senhaLogin" name="senha" class="form-control" placeholder="Sua senha" required><button class="btn btn-outline-secondary" type="button" onclick="alternarSenha('senhaLogin',this)" aria-label="Mostrar senha"><i class="fa-solid fa-eye"></i></button></div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-entrar w-100 mt-2">Entrar</button>
+                    
+                    <div class="text-end mt-3"><a href="/esqueci-senha">Esqueci minha senha</a></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script>function alternarSenha(id,botao){const campo=document.getElementById(id);campo.type=campo.type==='password'?'text':'password';botao.innerHTML=campo.type==='password'?'<i class="fa-solid fa-eye"></i>':'<i class="fa-solid fa-eye-slash"></i>';}</script>
+</body>
+</html>
